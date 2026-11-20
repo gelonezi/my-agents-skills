@@ -20,5 +20,8 @@ If `~/.claude/skills` already exists, move its contents aside first, clone, then
 ## How the backup works
 
 `.backup/install.sh` installs a systemd user timer that runs `.backup/backup.sh` once a day. The script
-commits any change and pushes it here. Because this repository is public, it refuses to commit changes that
-look like credentials. Skills synced by the Claude desktop app (`synced/`) are ignored.
+commits any change, pulls anything new from GitHub, and pushes. Because this repository is public, it refuses to
+commit changes that look like credentials. Skills synced by the Claude desktop app (`synced/`) are ignored.
+
+Every Monday a scheduled Claude task reviews the skills the timer backed up that week (with the skill-creator
+guidelines), pushes any improvements here, and the next local run pulls them back into `~/.claude/skills`.

@@ -15,7 +15,14 @@ else
   git commit -q -m "Automatic backup $(date '+%Y-%m-%d %H:%M')"
   echo "Committed."
 fi
-# Push whenever the remote is behind (also retries a push that failed while offline).
 if git remote get-url origin >/dev/null 2>&1; then
+  # The weekly cloud review may have pushed improvements: bring them in first, so the push is not
+  # rejected and the improved skills land in ~/.claude/skills too.
+  if ! git pull -q --rebase origin main; then
+    git rebase --abort 2>/dev/null || true
+    echo "Could not merge changes from GitHub; nothing pushed. Resolve with: git -C $PWD pull --rebase origin main" >&2
+    exit 1
+  fi
+  # Push whenever the remote is behind (also retries a push that failed while offline).
   git push -q origin main && echo "Pushed."
 fi
