@@ -1,0 +1,5 @@
+# Skills synced by the Claude desktop app: re-downloaded automatically, not mine to publish
+synced/
+__pycache__/
+*.pyc
+*-workspace/
