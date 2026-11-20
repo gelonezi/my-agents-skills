@@ -2,6 +2,12 @@
 # Commit and push any change in ~/.claude/skills. Run by the systemd user timer.
 set -euo pipefail
 cd "$(dirname "$(readlink -f "$0")")/.."
+# Also keep a copy of the list of installed plugins (just that file, not the plugins themselves).
+plugins_list="$HOME/.claude/plugins/installed_plugins.json"
+if [ -f "$plugins_list" ]; then
+  mkdir -p .plugins
+  cp "$plugins_list" .plugins/installed_plugins.json
+fi
 git add -A
 if git diff --cached --quiet; then
   echo "No changes."
